@@ -1,9 +1,10 @@
 import pandas as pd
+import numpy as np
 from math import sqrt
 from datetime import datetime
 
 
-def find_coords(p1, p2, nr_of_points=25):
+def find_coords(p1, p2, line, nr_of_points=25):
 
     slope = (p2[1] - p1[1]) / (p2[0] - p1[0])
     length = sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
@@ -18,6 +19,9 @@ def find_coords(p1, p2, nr_of_points=25):
     elif p1[0] > p2[0]:
         for i in range(0, nb_points):
             p.append([p[i][0] + dx(distance, slope), p[i][1] + dy(distance, slope)])
+
+    if line == "1":
+        p.insert(0, [np.nan, np.nan])
 
     coordinates_dataframe = pd.DataFrame(p, columns=["x", "y"])
     return coordinates_dataframe
@@ -36,9 +40,12 @@ def select_waterpas_data(data, metadata, sheet, plot):
     # print(sheet)
 
     if sheet == "05":
-        lines = ["1", "2", "3", "4", "5"]
+        lines = ["0", "1", "2", "3", "4", "5"]
     else:
-        lines = ["1", "2", "3", "4"]
+        lines = ["0", "1", "2", "3", "4"]
+
+    # select the measurements for the relevant parcel
+    data_plot = data[data["metingnr"].str.startswith((sheet + plot), na=False)]
 
     df_final = pd.DataFrame()
     for line in lines:
@@ -55,15 +62,13 @@ def select_waterpas_data(data, metadata, sheet, plot):
 
         # print(sel)
 
-        # this is for the coordinates of the measurement
-        p1 = sel[sel["Code"].str.endswith(line, na=False)].iloc[0, 1:].to_list()
-        p2 = sel[sel["Code"].str.endswith(line, na=False)].iloc[1, 1:].to_list()
+        if float(line) > 0:
+            # this is for the coordinates of the measurement
+            p1 = sel[sel["Code"].str.endswith(line, na=False)].iloc[0, 1:].to_list()
+            p2 = sel[sel["Code"].str.endswith(line, na=False)].iloc[1, 1:].to_list()
 
         # print(p1)
         # print(p2)
-
-        # select the measurements for the relevant parcel
-        data_plot = data[data["metingnr"].str.startswith((sheet + plot), na=False)]
 
         # print(data_plot)
 
@@ -71,14 +76,18 @@ def select_waterpas_data(data, metadata, sheet, plot):
         column_names = data.iloc[data_plot.index[0] - 3]
 
         # below we only select 25 data rows, for every serie points (e.g. 01R200, 01R202 for line=2 etc)
-        if line == "1":
-            data_line = data_plot[
-                data_plot["metingnr"].str.contains((plot + line), na=False)
-            ].iloc[1:]
-        else:
-            data_line = data_plot[
-                data_plot["metingnr"].str.contains((plot + line), na=False)
-            ]
+        # if line == "1":
+        #     data_line = data_plot[
+        #         data_plot["metingnr"].str.contains((plot + line), na=False)
+        #     ].iloc[1:]
+        # else:
+        #     data_line = data_plot[
+        #         data_plot["metingnr"].str.contains((plot + line), na=False)
+        #     ]
+
+        data_line = data_plot[
+            data_plot["metingnr"].str.contains((plot + line), na=False)
+        ]
 
         # print(data_line)
 
@@ -108,14 +117,17 @@ def select_waterpas_data(data, metadata, sheet, plot):
         else:
             number_of_points = 25
 
-        p = find_coords(p1, p2, nr_of_points=number_of_points)
+        if float(line) == 0:
+            p = pd.DataFrame(np.nan, index=range(len(data_line)), columns=["x", "y"])
+        elif float(line) > 0:
+            p = find_coords(p1, p2, line, nr_of_points=number_of_points)
 
         # print(p)
 
         # print(p)
 
         # dataframe with x,y coords and the waterpas measurement
-        df = pd.concat([p, data_line], axis=1).dropna(axis=1, how="all")
+        df = pd.concat([p, data_line], axis=1)  # .dropna(axis=1, how="all")
         df = df.set_index(["metingnr", "x", "y"])
         df = df.astype(float)
 

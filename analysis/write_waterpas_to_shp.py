@@ -61,6 +61,7 @@ for farmer in trans:
         # load the csv data
         waterpas_data = pd.read_csv(path_to_waterpas_data)
         waterpas_data = waterpas_data.drop(columns="metingnr")
+        waterpas_data = waterpas_data[waterpas_data["x"].notnull()]
         waterpas_data = waterpas_data.set_index(["x", "y"])
         waterpas_data.columns = [
             f"T{i}" for i in range(len(waterpas_data.columns))
