@@ -83,7 +83,9 @@ for farmer in farmers:
     # select only the rows of that transect
     waterpas_data_transect = waterpas_data[mask]
 
+    # calculate distance along transect
     waterpas_data_transect = calculate_distance_along_transect(waterpas_data_transect)
+
     waterpas_data_transect = waterpas_data_transect.reset_index()
     waterpas_data_transect = waterpas_data_transect.drop(columns=["metingnr", "x", "y"])
     waterpas_data_transect = waterpas_data_transect.set_index(["s"])

@@ -27,8 +27,7 @@ def calculate_distance_along_transect(transect_data):
 farmers = ["01"]  # , "02", "05", "06", "07", "08", "09", "11"]
 plot = "R"  # R voor referentieperceel of D voor maatregelenperceel
 transect = "1"
-year = 2019
-season = "winter"
+season = "winter"  # options are "winter" "spring" "summer" "autumn"
 
 #####################################################
 # code to create the plot
@@ -106,7 +105,9 @@ for farmer in farmers:
     # select only the rows of that transect
     waterpas_data_transect = waterpas_data[mask]
 
+    # calculate distance along transect
     waterpas_data_transect = calculate_distance_along_transect(waterpas_data_transect)
+
     waterpas_data_transect = waterpas_data_transect.reset_index()
     waterpas_data_transect = waterpas_data_transect.drop(columns=["metingnr", "x", "y"])
     waterpas_data_transect = waterpas_data_transect.set_index(["s"])
