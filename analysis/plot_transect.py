@@ -33,13 +33,13 @@ def set_xaxis_datelabels(ax):
 # these are all the farmers
 trans = {
     "01": "01-Bouwman",
-    "02": "02-DalFsen",
-    "05": "05-Kronenberg",
-    "06": "06-DenUyl",
-    "07": "07-Post",
-    "08": "08-Brandhof",
-    "09": "09-Visscher",
-    "11": "11-Petter",
+    # "02": "02-DalFsen",
+    # "05": "05-Kronenberg",
+    # "06": "06-DenUyl",
+    # "07": "07-Post",
+    # "08": "08-Brandhof",
+    # "09": "09-Visscher",
+    # "11": "11-Petter",
 }
 
 transects = ["1", "2", "3", "4"]
@@ -102,6 +102,9 @@ for farmer in trans:
             transect_mean = waterpas_data_transect.mean()
             transect_mean.index = pd.to_datetime(transect_mean.index)
 
+            if tov_t0:
+                transect_mean -= transect_mean.iloc[0]
+
             # plot the transect / add the transect to the plot
             transect_mean.plot(
                 ax=ax,
@@ -121,7 +124,10 @@ for farmer in trans:
             waterpas_data.columns[-1],
         )
 
-        ax.set_ylabel("Maaiveld hoogte \n t.o.v. NAP (m)")
+        if tov_t0:
+            ax.set_ylabel("Maaiveld hoogte \n t.o.v. eerste meeting (m)")
+        else:
+            ax.set_ylabel("Maaiveld hoogte \n t.o.v. NAP (m)")
         ax.set_xlabel("Datum")
         ax.set_title("Perceel " + farmer_name.split("-")[0])
         set_xaxis_datelabels(ax)
@@ -139,6 +145,10 @@ for farmer in trans:
 
         # plt.legend()
 
-        savefig_path = rf'N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/4-visualisation/{farmer_name}/heights_transect_{"_".join(str(i) for i in transects)}_{plot}'
+        savefig_path = rf'N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/4-visualisation/{farmer_name}/heights_transect_{"_".join(str(i) for i in transects)}_{plot}_'
+        if tov_t0:
+            savefig_path = savefig_path + "tov_t0"
+        else:
+            savefig_path = savefig_path + "tov_NAP"
         plt.savefig(savefig_path + ".png", dpi=400, bbox_inches="tight")
         plt.close()
