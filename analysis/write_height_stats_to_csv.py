@@ -3,29 +3,37 @@ import os
 import xlsxwriter
 from pathlib import Path
 
+#####################################################
+# parameters
+#####################################################
+
+farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+plots = ["R", "D"]  # R voor referentieperceel of D voor maatregelenperceel
+
+#####################################################
+# code to create the plot
+#####################################################
 
 # these are all the farmers
 trans = {
     "01": "01-Bouwman",
-    # "02": "02-DalFsen",
-    # "05": "05-Kronenberg",
-    # "06": "06-DenUyl",
-    # "07": "07-Post",
-    # "08": "08-Brandhof",
-    # "09": "09-Visscher",
-    # "11": "11-Petter",
+    "02": "02-DalFsen",
+    "05": "05-Kronenberg",
+    "06": "06-DenUyl",
+    "07": "07-Post",
+    "08": "08-Brandhof",
+    "09": "09-Visscher",
+    "11": "11-Petter",
 }
 
-plots = ["R", "D"]
 plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
 colors = {
     "R": ["#CAE0AB", "#4EB265", "royalblue"],
     "D": ["#F6C141", "#E8601C", "turquoise"],
 }
 xloc_text = {"R": 0.05, "D": 0.35}
-tov_t0 = True
 
-for farmer in trans:
+for farmer in farmers:
 
     mean_and_std = pd.DataFrame()
 

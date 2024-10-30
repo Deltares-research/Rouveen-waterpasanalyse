@@ -6,22 +6,32 @@ from pathlib import Path
 
 from make_figs import plot_spatial
 
+#####################################################
+# parameters
+#####################################################
+
+farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+plots = ["R", "D"]
+
+#####################################################
+# code to create the plot
+#####################################################
+
 # these are all the farmers
 trans = {
-    # "01": "01-Bouwman",
-    # "02": "02-DalFsen",
+    "01": "01-Bouwman",
+    "02": "02-DalFsen",
     "05": "05-Kronenberg",
-    # "06": "06-DenUyl",
-    # "07": "07-Post",
-    # "08": "08-Brandhof",
-    # "09": "09-Visscher",
-    # "11": "11-Petter",
+    "06": "06-DenUyl",
+    "07": "07-Post",
+    "08": "08-Brandhof",
+    "09": "09-Visscher",
+    "11": "11-Petter",
 }
 
-plots = ["R", "D"]
 plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
 
-for farmer in trans:
+for farmer in farmers:
 
     farmer_name = trans[farmer]
     print(f"Working on plot {farmer}")

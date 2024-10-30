@@ -9,6 +9,18 @@ from calc_stats import calculate_trendline
 
 start_time = datetime.datetime.now()
 
+#####################################################
+# parameters
+#####################################################
+
+farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+plots = ["R"]  # R voor referentieperceel of D voor maatregelenperceel
+tov_t0 = True
+
+#####################################################
+# code to create the plot
+#####################################################
+
 # these are all the farmers
 trans = {
     "01": "01-Bouwman",
@@ -20,8 +32,6 @@ trans = {
     "09": "09-Visscher",
     "11": "11-Petter",
 }
-
-plots = ["R"]  # , "D"]
 plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
 colors = {
     "R": ["#CAE0AB", "#4EB265", "royalblue"],
@@ -29,9 +39,7 @@ colors = {
 }
 xloc_text = {"R": 0.05, "D": 0.35}
 
-tov_t0 = True
-
-for farmer in trans:
+for farmer in farmers:
 
     farmer_name = trans[farmer]
     print(f"Working on plot {farmer}")
