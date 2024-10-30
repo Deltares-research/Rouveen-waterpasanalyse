@@ -3,20 +3,54 @@ import os
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
+
+def set_xaxis_datelabels(ax):
+
+    # maj_loc = mdates.MonthLocator(bymonth=np.arange(1,12,6))
+    maj_loc = mdates.AutoDateLocator(minticks=3, maxticks=7)
+    ax.xaxis.set_major_locator(maj_loc)
+
+    # horizontal labels
+    ax.xaxis.set_tick_params(rotation=0)
+
+    for label in ax.get_xticklabels():
+        label.set_horizontalalignment("center")
+
+    zfmts = ["", "%b\n%Y", "%b", "%b-%d", "%H:%M", "%H:%M"]
+    maj_fmt = mdates.ConciseDateFormatter(
+        maj_loc, zero_formats=zfmts, show_offset=False
+    )
+
+    ax.xaxis.set_major_formatter(maj_fmt)
+    ax.figure.autofmt_xdate(rotation=0, ha="center")
+
+    # ax.xaxis.set_major_formatter(formatter)
+    ax.xaxis.set_minor_locator(mdates.MonthLocator())
+
 
 # these are all the farmers
 trans = {
-    # "01": "01-Bouwman",
-    # "02": "02-DalFsen",
+    "01": "01-Bouwman",
+    "02": "02-DalFsen",
     "05": "05-Kronenberg",
-    # "06": "06-DenUyl",
-    # "07": "07-Post",
-    # "08": "08-Brandhof",
-    # "09": "09-Visscher",
-    # "11": "11-Petter",
+    "06": "06-DenUyl",
+    "07": "07-Post",
+    "08": "08-Brandhof",
+    "09": "09-Visscher",
+    "11": "11-Petter",
 }
 
-transects = ["1", "2"]
+transects = ["1", "2", "3", "4"]
+# transects = ["1", "2", "3"]
+transect_colors = {
+    "1": "#1f77b4",
+    "2": "#ff7f0e",
+    "3": "#2ca02c",
+    "4": "#d62728",
+    "5": "#9467bd",
+}
 
 plots = ["R"]  # , "D"]
 plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
@@ -66,13 +100,44 @@ for farmer in trans:
 
             # average over measurements in the transect
             transect_mean = waterpas_data_transect.mean()
+            transect_mean.index = pd.to_datetime(transect_mean.index)
 
             # plot the transect / add the transect to the plot
-            transect_mean.plot(ax=ax, label=f"transect {transect}")
+            transect_mean.plot(
+                ax=ax,
+                label=f"transect {transect}",
+                linewidth=0.5,
+                color=transect_colors[transect],
+            )
 
-            ax.scatter(x=transect_mean.index, y=transect_mean.values)
+            ax.scatter(
+                x=transect_mean.index,
+                y=transect_mean.values,
+                color=transect_colors[transect],
+            )
 
-        plt.legend()
+        ax.set_xlim(
+            waterpas_data.columns[0],
+            waterpas_data.columns[-1],
+        )
+
+        ax.set_ylabel("Maaiveld hoogte \n t.o.v. NAP (m)")
+        ax.set_xlabel("Datum")
+        ax.set_title("Perceel " + farmer_name.split("-")[0])
+        set_xaxis_datelabels(ax)
+
+        ax.grid()
+
+        ax.legend(
+            bbox_to_anchor=(0.10, -0.12),
+            ncols=3,
+            loc="upper left",
+            frameon=False,
+            fontsize=12,
+            # title="Maaiveldhoogtes",
+        )
+
+        # plt.legend()
 
         savefig_path = rf'N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/4-visualisation/{farmer_name}/heights_transect_{"_".join(str(i) for i in transects)}_{plot}'
         plt.savefig(savefig_path + ".png", dpi=400, bbox_inches="tight")
