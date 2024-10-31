@@ -24,10 +24,10 @@ def calculate_distance_along_transect(transect_data):
 # parameters
 #####################################################
 
-farmers = ["01"]  # , "02", "05", "06", "07", "08", "09", "11"]
-plot = "R"  # R voor referentieperceel of D voor maatregelenperceel
-transect = "1"
-season = "autumn"  # options are "winter" "spring" "summer" "autumn"
+farmers = ["01"]
+plots = ["R"]  # R voor referentieperceel of D voor maatregelenperceel
+transects = ["1"]
+seasons = ["autumn"]  # options are "winter" "spring" "summer" "autumn"
 
 #####################################################
 # code to create the plot
@@ -86,73 +86,83 @@ for farmer in farmers:
         rf"n:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/4-visualisation/{farmer_name}"
     )
 
-    plot_name = plot_names[plot]
+    for plot in plots:
+        plot_name = plot_names[plot]
 
-    path_to_waterpas_data = os.path.join(
-        inputdir_path, f"{farmer_name}_waterpasdata_{plot_name}.csv"
-    )
-
-    # load the csv data
-    waterpas_data = pd.read_csv(path_to_waterpas_data)
-    waterpas_data = waterpas_data[waterpas_data["x"].notnull()]
-    waterpas_data = waterpas_data.set_index(["metingnr"])  # , "x", "y"])
-
-    fig, ax = plt.subplots(figsize=(8.27, 11.69 / 3))
-
-    # check if row is in one of the transects
-    mask = waterpas_data.index.str.contains(f"{farmer}{plot}{transect}")
-
-    # select only the rows of that transect
-    waterpas_data_transect = waterpas_data[mask]
-
-    # calculate distance along transect
-    waterpas_data_transect = calculate_distance_along_transect(waterpas_data_transect)
-
-    waterpas_data_transect = waterpas_data_transect.reset_index()
-    waterpas_data_transect = waterpas_data_transect.drop(columns=["metingnr", "x", "y"])
-    waterpas_data_transect = waterpas_data_transect.set_index(["s"])
-
-    waterpas_data_transect = waterpas_data_transect.filter(regex=season_months[season])
-
-    for column in waterpas_data_transect:
-        column_year = column.split("-")[0]
-        ax.plot(
-            waterpas_data_transect.index,
-            waterpas_data_transect[column],
-            linewidth=0.5,
-            color=colors[column_year],
-            label=column,
-        )
-        ax.scatter(
-            waterpas_data_transect.index,
-            waterpas_data_transect[column],
-            color=colors[column_year],
-            s=20,
+        path_to_waterpas_data = os.path.join(
+            inputdir_path, f"{farmer_name}_waterpasdata_{plot_name}.csv"
         )
 
-    ax.set_xlim(
-        waterpas_data_transect.index.min(),
-        waterpas_data_transect.index.max(),
-    )
+        # load the csv data
+        waterpas_data = pd.read_csv(path_to_waterpas_data)
+        waterpas_data = waterpas_data[waterpas_data["x"].notnull()]
+        waterpas_data = waterpas_data.set_index(["metingnr"])  # , "x", "y"])
 
-    ax.set_ylabel("Maaiveld hoogte \n t.o.v. NAP (m)", fontsize=12)
-    ax.set_xlabel("Afstand langs transect (m)", fontsize=12)
-    ax.set_title(f"Perceel  {farmer} - transect {transect}")
+        for season in seasons:
+            for transect in transects:
 
-    ax.tick_params(axis="both", which="major", labelsize=12)
+                fig, ax = plt.subplots(figsize=(8.27, 11.69 / 3))
 
-    ax.grid()
+                # check if row is in one of the transects
+                mask = waterpas_data.index.str.contains(f"{farmer}{plot}{transect}")
 
-    ax.legend(
-        bbox_to_anchor=(0.09, -0.18),
-        ncols=3,
-        loc="upper left",
-        frameon=False,
-        fontsize=12,
-        title="Meting gedaan op",
-        title_fontsize=12,
-    )
+                # select only the rows of that transect
+                waterpas_data_transect = waterpas_data[mask]
 
-    savefig_path = rf"N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/4-visualisation/{farmer_name}/heights_transect_{transect}_{plot}_compare_years_{season}"
-    plt.savefig(savefig_path + ".png", dpi=400, bbox_inches="tight")
-    plt.close()
+                # calculate distance along transect
+                waterpas_data_transect = calculate_distance_along_transect(
+                    waterpas_data_transect
+                )
+
+                waterpas_data_transect = waterpas_data_transect.reset_index()
+                waterpas_data_transect = waterpas_data_transect.drop(
+                    columns=["metingnr", "x", "y"]
+                )
+                waterpas_data_transect = waterpas_data_transect.set_index(["s"])
+
+                waterpas_data_transect = waterpas_data_transect.filter(
+                    regex=season_months[season]
+                )
+
+                for column in waterpas_data_transect:
+                    column_year = column.split("-")[0]
+                    ax.plot(
+                        waterpas_data_transect.index,
+                        waterpas_data_transect[column],
+                        linewidth=0.5,
+                        color=colors[column_year],
+                        label=column,
+                    )
+                    ax.scatter(
+                        waterpas_data_transect.index,
+                        waterpas_data_transect[column],
+                        color=colors[column_year],
+                        s=20,
+                    )
+
+                ax.set_xlim(
+                    waterpas_data_transect.index.min(),
+                    waterpas_data_transect.index.max(),
+                )
+
+                ax.set_ylabel("Maaiveld hoogte \n t.o.v. NAP (m)", fontsize=12)
+                ax.set_xlabel("Afstand langs transect (m)", fontsize=12)
+                ax.set_title(f"Perceel  {farmer} - transect {transect}")
+
+                ax.tick_params(axis="both", which="major", labelsize=12)
+
+                ax.grid()
+
+                ax.legend(
+                    bbox_to_anchor=(0.09, -0.18),
+                    ncols=3,
+                    loc="upper left",
+                    frameon=False,
+                    fontsize=12,
+                    title="Meting gedaan op",
+                    title_fontsize=12,
+                )
+
+                savefig_path = rf"N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/4-visualisation/{farmer_name}/heights_transect_{transect}_{plot}_compare_years_{season}"
+                plt.savefig(savefig_path + ".png", dpi=400, bbox_inches="tight")
+                plt.close()
