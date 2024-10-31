@@ -9,4 +9,4 @@ There are two folders:
      Reading data from these interim files is faster than for raw data, and speeds up the time it takes to make figures.
 2. analysis
    - This folder contains python scripts to plot (changes in) spirit levelling measurements.
-     The scripts furthermore write statistics of the spirit levelling measurements to new csv files.
+     Further, some scripts in this folder write statistics of the spirit levelling measurements to new csv files.
