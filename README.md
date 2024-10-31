@@ -1,6 +1,8 @@
+# Spirit levelling in Rouveen
 The code in this repository uses spirit levelling data, which measures the movement of the subsurface. It then calculates changes in measurements with respect to Normaal Amsterdams Peil (NAP).
 The data is collected for location Rouveen.
 
+# Folder structure
 There are two folders:
 1. pre-processing
    - This folder contains python scripts to write raw data to interim files for spirit leveling and groundwater levels.
