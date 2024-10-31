@@ -75,7 +75,7 @@ for farmer in farmers:
     waterpas_data = waterpas_data[waterpas_data["x"].notnull()]
     waterpas_data = waterpas_data.set_index(["metingnr"])  # , "x", "y"])
 
-    fig, ax = plt.subplots(figsize=(8.27, 11.69 / 2))
+    fig, ax = plt.subplots(figsize=(8.27, 11.69 / 3))
 
     # check if row is in one of the transects
     mask = waterpas_data.index.str.contains(f"{farmer}{plot}{transect}")
@@ -117,6 +117,7 @@ for farmer in farmers:
             waterpas_data_transect.index,
             waterpas_data_transect[column],
             color=colors[season],
+            s=20,
         )
 
     ax.set_xlim(
@@ -133,7 +134,7 @@ for farmer in farmers:
     ax.grid()
 
     ax.legend(
-        bbox_to_anchor=(0.225, -0.12),
+        bbox_to_anchor=(0.225, -0.18),
         ncols=2,
         loc="upper left",
         frameon=False,
