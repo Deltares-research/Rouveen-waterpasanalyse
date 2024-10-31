@@ -11,6 +11,7 @@ There are two folders:
    - This folder contains python scripts to plot (changes in) spirit levelling measurements.
      Further, some scripts in this folder write statistics of the spirit levelling measurements to new csv files.
 
+## Description of scripts within the analysis folder
 - Scripts in the analysis folder starting with 'write' or 'plot' have a seperate section at the beginning of the script to set the parameters to be plotted or written.
 - Among other parameters, a list with farmers is present in this section. You can decide for which farmers you want to make the figure.
 - The type of plot can be set with keyword plot. Possible values are "R" for referentieperceel or "D" for maatregelenperceel.
