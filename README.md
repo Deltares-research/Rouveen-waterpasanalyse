@@ -5,7 +5,7 @@ The data is collected for location Rouveen.
 # Folder structure
 There are two folders:
 1. pre-processing
-   - This folder contains python scripts to write raw data to interim files for spirit leveling and groundwater levels.
+   - This folder contains python scripts to write raw data for spirit leveling and groundwater levels to interim files.
      Reading data from these interim files is faster than for raw data, and speeds up the time it takes to make the figures (including small adjustments to those figures).
 2. analysis
    - This folder contains python scripts to plot (changes in) spirit levelling measurements.
