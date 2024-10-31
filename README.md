@@ -1,5 +1,5 @@
 # Spirit levelling in Rouveen
-The code in this repository uses spirit levelling data, which measures the movement of the subsurface. It then calculates changes in measurements with respect to Normaal Amsterdams Peil (NAP).
+The code in this repository uses spirit levelling data, which measures the movement of the subsurface with respect to Normaal Amsterdams Peil (NAP).
 The data is collected for location Rouveen.
 
 # Folder structure
