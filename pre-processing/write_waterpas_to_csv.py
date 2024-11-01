@@ -17,6 +17,17 @@ path_to_waterpas_data = os.path.join(
     dir_path, "Waterpassing bodemdaling Rouveen 2018-2023.xlsx"
 )
 
+#####################################################
+# parameters - for which farmers do we want to update the data
+#####################################################
+
+farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+plots = ["R", "D"]
+
+#####################################################
+# code to create the plot
+#####################################################
+
 # these are all the farmers
 trans = {
     "01": "01-Bouwman",
@@ -38,7 +49,7 @@ waterpas_data = pd.read_excel(
     path_to_waterpas_data, sheet_name="Hoogte tov NAP", header=8
 )
 
-for farmer in trans:
+for farmer in farmers:
 
     farmer_name = trans[farmer]
     print(f"Loading and plotting data for plot {farmer}")

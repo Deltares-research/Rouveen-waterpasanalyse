@@ -16,6 +16,17 @@ path_to_groundwater_data = os.path.join(
     dir_path, "Waterpassing bodemdaling Rouveen 2018-2023.xlsx"
 )
 
+#####################################################
+# parameters - for which farmers do we want to update the data
+#####################################################
+
+farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+plots = ["R", "D"]
+
+#####################################################
+# code to create the plot
+#####################################################
+
 # these are all the farmers
 trans = {
     "01": "01-Bouwman",
@@ -32,7 +43,7 @@ trans = {
 plots = ["R", "D"]
 plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
 
-for farmer in trans:
+for farmer in farmers:
 
     farmer_name = trans[farmer]
     print(f"Loading and plotting data for plot {farmer}")
