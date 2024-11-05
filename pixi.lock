@@ -208,6 +208,13 @@ packages:
   purls: []
   size: 6716
   timestamp: 1723823166911
+- kind: pypi
+  name: rouveen-waterpasanalyse
+  version: 0.1.0
+  path: .
+  sha256: 89a8f2461200846aad31c2ffbd5d955e29c7e68c5153c80cbd8c96e09a6e17f7
+  requires_python: '>=3.11'
+  editable: true
 - kind: conda
   name: tk
   version: 8.6.13
@@ -306,13 +313,6 @@ packages:
   purls: []
   size: 17453
   timestamp: 1728400827536
-- kind: pypi
-  name: waterpasanalyse
-  version: 0.1.0
-  path: .
-  sha256: 54a2e79c3c1db01b86750a960daf6a26fabd2f0aaa6d0786f3cbecc0a39597be
-  requires_python: '>=3.11'
-  editable: true
 - kind: conda
   name: xz
   version: 5.2.6

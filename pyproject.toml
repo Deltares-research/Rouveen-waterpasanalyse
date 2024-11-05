@@ -1,7 +1,8 @@
 [project]
+authors = [{name = "jreusen", email = "25225054+JesseReusen@users.noreply.github.com"}]
 dependencies = []
 description = "Add a short description here"
-name = "waterpasanalyse"
+name = "Rouveen-waterpasanalyse"
 requires-python = ">= 3.11"
 version = "0.1.0"
 
@@ -14,6 +15,6 @@ channels = ["conda-forge"]
 platforms = ["win-64"]
 
 [tool.pixi.pypi-dependencies]
-waterpasanalyse = { path = ".", editable = true }
+rouveen_waterpasanalyse = { path = ".", editable = true }
 
 [tool.pixi.tasks]
