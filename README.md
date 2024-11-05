@@ -3,10 +3,11 @@ The code in this repository uses spirit levelling data, which measures the movem
 The data is collected for location Rouveen.
 
 # Folder structure
-There are two folders:
+There are two subfolders inside of the folder rouveen_waterpasanalyse:
 1. pre-processing
    - This folder contains python scripts to write raw data for spirit leveling and groundwater levels to interim files.
      Reading data from these interim files is faster than for raw data, and speeds up the time it takes to make figures.
+   - Whenever there is new data, write_gws_to_csv.py and write_waterpas_to_csv.py should be executed.
 2. analysis
    - This folder contains python scripts to plot (changes in) spirit levelling measurements.
      Further, some scripts in this folder write statistics of the spirit levelling measurements to new csv files.

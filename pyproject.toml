@@ -1,6 +1,6 @@
 [project]
 authors = [{name = "jreusen", email = "25225054+JesseReusen@users.noreply.github.com"}]
-dependencies = []
+dependencies = ["xlsxwriter>=3.2.0,<4"]
 description = "Add a short description here"
 name = "Rouveen-waterpasanalyse"
 requires-python = ">= 3.11"
@@ -18,3 +18,9 @@ platforms = ["win-64"]
 rouveen_waterpasanalyse = { path = ".", editable = true }
 
 [tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+pandas = ">=2.2.3,<3"
+numpy = ">=2.1.3,<3"
+scipy = ">=1.14.1,<2"
+matplotlib = ">=3.9.2,<4"
