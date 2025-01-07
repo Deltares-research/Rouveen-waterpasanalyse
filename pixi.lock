@@ -1185,15 +1185,6 @@ packages:
   - pkg:pypi/munkres?source=hash-mapping
   size: 12452
   timestamp: 1600387789153
-- kind: pypi
-  name: nobv-waterpasanalyse-rouveen
-  version: 0.1.0
-  path: .
-  sha256: a11090cd97a9d1c40c203a60b492fbb21a07926c3be60be8f7d74e5a0ffc056d
-  requires_dist:
-  - xlsxwriter>=3.2.0,<4
-  requires_python: '>=3.11'
-  editable: true
 - kind: conda
   name: numpy
   version: 2.2.1
@@ -1578,6 +1569,15 @@ packages:
   purls: []
   size: 92067478
   timestamp: 1735624829377
+- kind: pypi
+  name: rouveen-waterpasanalyse
+  version: 0.1.0
+  path: .
+  sha256: 3e445af276e4167f91cc94d320d43226e4bd557028310a5ac4f10cae21b7d6dc
+  requires_dist:
+  - xlsxwriter>=3.2.0,<4
+  requires_python: '>=3.11'
+  editable: true
 - kind: conda
   name: scipy
   version: 1.15.0
