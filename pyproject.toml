@@ -2,7 +2,7 @@
 authors = [{name = "jreusen", email = "25225054+JesseReusen@users.noreply.github.com"}]
 dependencies = ["xlsxwriter>=3.2.0,<4"]
 description = "Add a short description here"
-name = "Rouveen-waterpasanalyse"
+name = "NOBV-waterpasanalyse-Rouveen"
 requires-python = ">= 3.11"
 version = "0.1.0"
 
@@ -15,7 +15,7 @@ channels = ["conda-forge"]
 platforms = ["win-64"]
 
 [tool.pixi.pypi-dependencies]
-rouveen_waterpasanalyse = { path = ".", editable = true }
+NOBV_waterpasanalyse_Rouveen = { path = ".", editable = true }
 
 [tool.pixi.tasks]
 
