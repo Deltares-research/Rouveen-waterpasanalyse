@@ -135,6 +135,10 @@ def select_waterpas_data(data, metadata, sheet, plot):
         # to the final dataframe
         df_final = pd.concat([df_final, df])
 
+        if sheet == "08":
+            if plot == "D":
+                df_final = df_final.drop(columns="2024-04-22")
+
     # print(df_final)
 
     return df_final

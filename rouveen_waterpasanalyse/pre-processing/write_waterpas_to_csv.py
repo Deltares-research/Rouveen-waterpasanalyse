@@ -70,9 +70,6 @@ for farmer in farmers:
             waterpas_data, metadata, farmer, plot
         )
 
-        if farmer == "08":
-            waterpas_data_selection = waterpas_data_selection.drop(columns="2024-04-22")
-
         if not os.path.exists(outputdir_path):
             os.makedirs(outputdir_path)
 
