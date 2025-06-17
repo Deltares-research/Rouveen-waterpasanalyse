@@ -256,3 +256,159 @@ def plot_trendline_and_groundwater(
 
     plt.savefig(fpath + ".png", dpi=400, bbox_inches="tight")
     plt.close()
+
+
+def add_trendline(
+    waterpas_data,
+    winter_indices,
+    farmer_name,
+    regression_data,
+    stats_text,
+    xloc_text,
+    colors,
+    label,
+    ax,
+    tov_t0=False,
+):
+
+    if tov_t0:
+        waterpas_data -= waterpas_data.iloc[0]
+
+    # plot the measurements
+    waterpas_data.reset_index().plot.line(
+        ax=ax,
+        x="index",
+        y="gem. hoogte",
+        color=colors[1],
+        linewidth=0.5,
+        label="_",
+        zorder=1,
+    )
+    waterpas_data[~winter_indices].reset_index().plot.scatter(
+        ax=ax,
+        x="index",
+        y="gem. hoogte",
+        color=colors[1],
+        zorder=2,
+        label=label.title(),
+    )
+    waterpas_data[winter_indices].reset_index().plot.scatter(
+        ax=ax,
+        x="index",
+        y="gem. hoogte",
+        color=colors[0],
+        zorder=2,
+        label=f"{label.title()} - wintermeting",
+    )
+
+    # plot the regression line
+    regression_data.plot(
+        ax=ax,
+        color=colors[0],
+        linestyle="--",
+        label=f"Lineare trend {label}",
+    )
+
+    ax.text(
+        x=xloc_text,
+        y=0.05,
+        s=stats_text,
+        color=colors[1],
+        va="bottom",
+        ha="left",
+        fontsize=9,
+        transform=ax.transAxes,
+    )
+
+    ax.set_xlim(
+        waterpas_data.reset_index()["index"].min(),
+        waterpas_data.reset_index()["index"].max(),
+    )
+
+    if tov_t0:
+        ax.set_ylabel("Maaiveld hoogte \n t.o.v. eerste meeting (m)")
+    else:
+        ax.set_ylabel("Maaiveld hoogte \n t.o.v. NAP (m)")
+
+    ax.set_ylim(
+        [
+            waterpas_data.mean(axis=None).item() - 0.09,
+            waterpas_data.mean(axis=None).item() + 0.09,
+        ]
+    )
+
+    ax.set_title("Perceel " + farmer_name.split("-")[0])
+    # ax.set_title(farmer_name)
+    ax.set_xlabel("Datum")
+    set_xaxis_datelabels(ax)
+    ax.grid()
+
+    return ax
+
+
+def add_trendline_and_groundwater(
+    groundwater_data,
+    waterpas_data,
+    winter_indices,
+    farmer_name,
+    regression_data,
+    stats_text,
+    xloc_text,
+    colors,
+    label,
+    axs,
+    tov_t0=False,
+):
+
+    axs[0] = add_trendline(
+        copy.deepcopy(waterpas_data),
+        winter_indices,
+        farmer_name,
+        regression_data,
+        stats_text,
+        xloc_text,
+        colors,
+        label,
+        ax=axs[0],
+        tov_t0=tov_t0,
+    )
+
+    waterpas_data.reset_index().plot.line(
+        ax=axs[1],
+        x="index",
+        y="gem. hoogte",
+        color=colors[1],
+        linewidth=0.5,
+        label=f"Maaiveld - {label}",
+    )
+
+    groundwater_data.plot(
+        ax=axs[1],
+        linewidth=0.8,
+        c=colors[2],
+        alpha=0.6,
+        linestyle="-",
+        label=label.title(),
+    )
+
+    axs[1].set_ylabel("Hoogte t.o.v. NAP (m)")
+    axs[1].set_xlabel("Datum")
+    set_xaxis_datelabels(axs[1])
+    axs[1].grid()
+    axs[1].legend(
+        bbox_to_anchor=(0.6, -0.15),
+        loc="upper left",
+        frameon=False,
+        fontsize=10,
+        title="Grondwaterstanden",
+    )
+
+    axs[0].legend(
+        bbox_to_anchor=(0, -1.35),
+        loc="upper left",
+        frameon=False,
+        fontsize=10,
+        title="Maaiveldhoogtes",
+    )
+
+    return axs
