@@ -7,7 +7,8 @@ from pathlib import Path
 # parameters
 #####################################################
 
-farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+# farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+farmers = ["08"]
 plots = ["R", "D"]  # R voor referentieperceel of D voor maatregelenperceel
 
 #####################################################
@@ -60,8 +61,11 @@ for farmer in farmers:
         waterpas_data = pd.read_csv(path_to_waterpas_data)
         waterpas_data = waterpas_data.set_index(["metingnr", "x", "y"])
 
-        column_names = range(len(waterpas_data.columns))
+        column_names = list(range(len(waterpas_data.columns)))
         waterpas_data.columns = column_names
+
+        if (farmer == "08") and (plot == "R"):
+            waterpas_data = waterpas_data.drop(columns=[22])
 
         # statistics for average height change
         # hoogteverandering van campagne naar campagne
@@ -77,6 +81,9 @@ for farmer in farmers:
             dh_mean_and_std = pd.concat(
                 [dh_mean_and_std, delta_h_mean, delta_h_std], axis=1
             )
+
+    # zorg dat de meting nrs op volgorde staan
+    dh_mean_and_std = dh_mean_and_std.sort_index()
 
     fpath = f"N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/3-output/{farmer_name}/statistieken_hoogteverschil_{farmer_name}"
 
