@@ -7,7 +7,7 @@ from pathlib import Path
 # parameters
 #####################################################
 
-farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]  # list of farmers
 plots = ["R", "D"]  # R voor referentieperceel of D voor maatregelenperceel
 
 #####################################################
@@ -74,6 +74,8 @@ for farmer in farmers:
 
     # write to excel and csv file
     fpath = f"N:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/3-output/{farmer_name}/statistieken_hoogte_{farmer_name}"
+
+    # print(fpath)
 
     header = ",Referentie perceel,,Maatregelen perceel,\n "
     with open(fpath + ".csv", "w") as fp:

@@ -40,10 +40,7 @@ trans = {
     "11": "11-Petter",
 }
 
-# plot = "R"
-plots = ["R", "D"]
 plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
-
 
 waterpas_data = pd.read_excel(
     path_to_waterpas_data, sheet_name="Hoogte tov NAP", header=8

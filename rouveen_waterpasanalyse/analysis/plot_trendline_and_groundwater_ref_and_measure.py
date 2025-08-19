@@ -20,10 +20,10 @@ trans = {
     # "02": "02-DalFsen",
     # "05": "05-Kronenberg",
     # "06": "06-DenUyl",
-    # "07": "07-Post",
+    "07": "07-Post",
     "08": "08-Brandhof",
-    # "09": "09-Visscher",
-    # "11": "11-Petter",
+    "09": "09-Visscher",
+    "11": "11-Petter",
 }
 
 plots = ["R", "D"]

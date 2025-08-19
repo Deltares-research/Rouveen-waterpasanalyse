@@ -20,7 +20,7 @@ path_to_groundwater_data = os.path.join(
 # parameters - for which farmers do we want to update the data
 #####################################################
 
-farmers = ["01", "02", "05", "06", "07", "08", "09", "11"]
+farmers = ["07", "08", "09", "11"]
 plots = ["R", "D"]
 
 #####################################################
@@ -46,7 +46,7 @@ plot_names = {"R": "referentieperceel", "D": "maatregelenperceel"}
 for farmer in farmers:
 
     farmer_name = trans[farmer]
-    print(f"Loading and plotting data for plot {farmer}")
+    print(f"Reading data for plot {farmer}")
 
     outputdir_path = Path(
         rf"n:/Projects/11204000/11204108/B. Measurements and calculations/Ruimtelijke analyse waterpassingen/data/2-interim/{farmer_name}"
